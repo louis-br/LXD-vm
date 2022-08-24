@@ -1,0 +1,12 @@
+[Unit]
+Description=Configure LXD
+Documentation=man:lxd(1)
+Requires=lxd.service
+
+[Service]
+Restart=no
+ExecStart=sh -c 'lxd init --preseed < /config/lxd/preseed.yml' 
+ExecStop=/usr/bin/systemctl disable %n
+
+[Install]
+WantedBy=multi-user.target
