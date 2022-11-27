@@ -1,0 +1,8 @@
+FROM podman2vm-arch-base:latest
+#RUN cat /pipes/metadata > /dev/null
+RUN lxd --group=lxd & \
+    lxd waitready --timeout=600 && \
+    lxc image import --alias lxd-arch /output/lxd-arch-meta.tar /output/lxd-arch.tar && \
+    lxd shutdown
+#rm tmp.tar && \
+#cat /pipes/rootfs > tmp.tar && \ 

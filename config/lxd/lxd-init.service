@@ -5,6 +5,7 @@ Requires=lxd.service
 
 [Service]
 Restart=no
+Type=oneshot
 ExecStart=sh -c 'lxd init --preseed < /config/lxd/preseed.yml' 
 ExecStop=/usr/bin/systemctl disable %n
 

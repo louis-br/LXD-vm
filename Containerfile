@@ -15,15 +15,23 @@ RUN echo "lxc.idmap = g 0 100000 65536" >> /etc/lxc/default.conf
 RUN echo "root:100000:65536" > /etc/subuid
 RUN echo "root:100000:65536" > /etc/subgid
 
-WORKDIR /config/lxd
-COPY config/lxd/preseed.yml .
-WORKDIR /
+#WORKDIR /config/lxd
+COPY config/lxd/preseed.yml /config/lxd/preseed.yml
+COPY config/lxd/profiles/privileged.yml /config/lxd/profiles/privileged.yml
+#WORKDIR /
+
+#COPY config/lxd/lxd.conf /usr/lib/systemd/system/lxd.service.d/lxd.conf
 
 COPY config/lxd/lxd-init.service /etc/systemd/system/lxd-init.service
+COPY config/lxd/profiles/lxd-privileged.service /etc/systemd/system/lxd-privileged.service
+COPY containers/lxd-arch/lxd-arch.service /etc/systemd/system/lxd-arch.service
 RUN systemctl enable lxd.service
 RUN systemctl enable lxd-init.service
+RUN systemctl enable lxd-privileged.service
+RUN systemctl enable lxd-arch.service
 
 RUN echo "root:root" | chpasswd
 
 COPY config/install.conf /etc/systemd/system/systemd-firstboot.service.d/install.conf
+COPY config/10-login.conf /etc/systemd/logind.conf.d/10-login.conf
 COPY config/20-wired.network /etc/systemd/network/20-wired.network
