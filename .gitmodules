@@ -1,0 +1,3 @@
+[submodule "containers/LXD-X-server"]
+	path = containers/LXD-X-server
+	url = https://github.com/louis-br/LXD-X-server
