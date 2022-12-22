@@ -1,0 +1,17 @@
+[Unit]
+Description=Stop / Start container %I
+Documentation=man:lxd(1)
+Requires=lxd.service
+After=lxd-init.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStartPre=-sh -c 'lxc profile create %i'
+ExecStartPre=-sh -c 'lxc profile edit %i < /config/lxd/profiles/%i.yml'
+ExecStartPre=-/usr/bin/lxc init --profile default --profile %i --storage default %i %i
+ExecStart=/usr/bin/lxc start %i
+ExecStop=/usr/bin/lxc stop %i
+
+[Install]
+WantedBy=multi-user.target

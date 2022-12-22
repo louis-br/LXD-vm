@@ -1,8 +1,10 @@
 FROM podman2vm-arch-base:latest
 #RUN cat /pipes/metadata > /dev/null
+COPY containers/LXD-X-server/output/x-server.yml /config/lxd/profiles/
 RUN lxd --group=lxd & \
     lxd waitready --timeout=600 && \
-    lxc image import --alias lxd-arch /output/lxd-arch-meta.tar /output/lxd-arch.tar && \
+    lxc image import /output/x-server.tar --alias x-server && \
     lxd shutdown
+RUN systemctl enable container@x-server.service
 #rm tmp.tar && \
 #cat /pipes/rootfs > tmp.tar && \ 
