@@ -1,10 +1,12 @@
 FROM podman2vm-arch-base:latest
-#RUN cat /pipes/metadata > /dev/null
-COPY containers/LXD-X-server/output/x-server.yml /config/lxd/profiles/
+COPY containers/LXD-openwrt/openwrt.yml /config/lxd/profiles/
+    #lxd init --minimal && \
+    #lxc storage create default dir && \
+    #lxc init --profile default --profile openwrt --storage default openwrt openwrt && \
 RUN lxd --group=lxd & \
     lxd waitready --timeout=600 && \
-    lxc image import /output/x-server.tar --alias x-server && \
+    lxc image import /output/openwrt.tar --alias openwrt && \
+    lxc profile create openwrt && \
+    lxc profile edit openwrt < /config/lxd/profiles/openwrt.yml && \
     lxd shutdown
-RUN systemctl enable container@x-server.service
-#rm tmp.tar && \
-#cat /pipes/rootfs > tmp.tar && \ 
+RUN systemctl enable container@openwrt.service
