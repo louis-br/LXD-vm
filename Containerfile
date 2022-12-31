@@ -24,8 +24,10 @@ COPY config/lxd/container@.service /etc/systemd/system/container@.service
 RUN systemctl enable lxd.service
 RUN systemctl enable lxd-init.service
 
+RUN pacman --sync --refresh --noconfirm usbutils polkit
+
 RUN echo "root:root" | chpasswd
 
 COPY config/install.conf /etc/systemd/system/systemd-firstboot.service.d/install.conf
 COPY config/10-login.conf /etc/systemd/logind.conf.d/10-login.conf
-COPY config/20-wired.network /etc/systemd/network/20-wired.network
+COPY config/20-dhcp-all.network /etc/systemd/network/20-dhcp-all.network

@@ -13,3 +13,7 @@ qemu-system-x86_64 \
     -device e1000,netdev=net0 \
     -netdev user,id=net0,hostfwd=tcp::2022-:22,hostfwd=tcp:127.0.0.2:8080-:80 \
     "$@"
+
+#-device qemu-xhci \
+#-device usb-host,hostbus=1,hostport=2 \
+#-nic none \
