@@ -16,7 +16,7 @@ sudo podman build --tag=podman2vm-arch-base . || exit 1
 
 sudo podman build   --tag=podman2vm-arch \
                     --file=Containerfile.import \
-                    --volume="$PWD/containers/LXD-openwrt/output:/output" \
+                    --volume="$PWD/containers/LXD-proxmox/output:/output" \
                     --no-cache \
                     . || exit 1
 

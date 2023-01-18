@@ -4,3 +4,6 @@
 [submodule "containers/LXD-openwrt"]
 	path = containers/LXD-openwrt
 	url = https://github.com/louis-br/LXD-openwrt
+[submodule "containers/LXD-proxmox"]
+	path = containers/LXD-proxmox
+	url = https://github.com/louis-br/LXD-proxmox

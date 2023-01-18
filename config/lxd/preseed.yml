@@ -1,9 +1,9 @@
 config: {}
 networks:
 - config:
-    ipv4.address: 10.62.164.1/24
+    ipv4.address: 10.1.1.1/24
     ipv4.nat: "true"
-    ipv6.address: fd42:349f:73f3:32f9::1/64
+    ipv6.address: auto
     ipv6.nat: "true"
   description: ""
   name: lxdbr0
@@ -28,12 +28,13 @@ profiles:
       pool: default
       type: disk
   name: default
-projects:
-- config:
-    features.images: "true"
-    features.networks: "true"
-    features.profiles: "true"
-    features.storage.buckets: "true"
-    features.storage.volumes: "true"
-  description: Default LXD project
-  name: default
+projects: []
+cluster: null
+#  config:
+#    features.images: "true"
+#    features.networks: "true"
+#    features.profiles: "true"
+#    features.storage.buckets: "true"
+#    features.storage.volumes: "true"
+#  description: Default LXD project
+#  name: default

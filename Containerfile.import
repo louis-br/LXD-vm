@@ -1,12 +1,12 @@
 FROM podman2vm-arch-base:latest
-COPY containers/LXD-openwrt/openwrt.yml /config/lxd/profiles/
+COPY containers/LXD-proxmox/proxmox.yml /config/lxd/profiles/
     #lxd init --minimal && \
     #lxc storage create default dir && \
     #lxc init --profile default --profile openwrt --storage default openwrt openwrt && \
 RUN lxd --group=lxd & \
     lxd waitready --timeout=600 && \
-    lxc image import /output/openwrt.tar --alias openwrt && \
-    lxc profile create openwrt && \
-    lxc profile edit openwrt < /config/lxd/profiles/openwrt.yml && \
+    lxc image import /output/proxmox.tar --alias proxmox && \
     lxd shutdown
-RUN systemctl enable container@openwrt.service
+    #lxc profile create proxmox && \
+    #lxc profile edit proxmox < /config/lxd/profiles/proxmox.yml && \
+RUN systemctl enable container@proxmox.service
