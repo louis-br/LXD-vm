@@ -4,10 +4,16 @@ RUN reflector --save /etc/pacman.d/mirrorlist \
               --protocol https \
               --latest 5 \
               --sort rate
-RUN pacman --sync --noconfirm mkinitcpio
-RUN sed -i 's/autodetect //' /etc/mkinitcpio.conf
+RUN sed --in-place --expression='s/#Color/Color/' --expression='s/NoProgressBar/#NoProgressBar/' /etc/pacman.conf
+RUN pacman --sync --refresh
+
 RUN pacman --sync --noconfirm base linux linux-firmware
+RUN pacman --sync --noconfirm usbutils polkit
 RUN yes | pacman --sync iptables-nft
+
+RUN pacman --sync --noconfirm dracut
+RUN dracut --force --kver 6.1.8-arch1-1 --no-hostonly-cmdline --force-add "livenet" /boot/initramfs-linux.img
+
 RUN pacman --sync --noconfirm lxd
 
 RUN echo "lxc.idmap = u 0 100000 65536" >> /etc/lxc/default.conf
@@ -23,8 +29,6 @@ COPY config/lxd/lxd-init.service /etc/systemd/system/lxd-init.service
 COPY config/lxd/container@.service /etc/systemd/system/container@.service
 RUN systemctl enable lxd.service
 RUN systemctl enable lxd-init.service
-
-RUN pacman --sync --refresh --noconfirm usbutils polkit
 
 RUN echo "root:root" | chpasswd
 
